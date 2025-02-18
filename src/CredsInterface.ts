@@ -1,6 +1,5 @@
 import { ServiceInterface } from "@zwa73/service-manager";
-import { JObject, MPromise, PRecord } from "@zwa73/utils";
-import { AnyLaModel, AnyTextCompletionOption } from "LaMAdapter";
+import { JObject, MPromise } from "@zwa73/utils";
 import { CredsData } from "./CredsAdapter";
 
 /**账户管理器接口 */
@@ -19,7 +18,7 @@ export type AccountManager = ServiceInterface<{
     /**此类型账户请求时的参数 */
     postOption:AccountPostOption;
     /**此账户对post选项的特殊处理 */
-    procOption?:(opt:AnyTextCompletionOption)=>MPromise<AnyTextCompletionOption>;
+    procOption?:(opt:JObject)=>MPromise<JObject>;
     /**获取key */
     getKey():string;
 }>;

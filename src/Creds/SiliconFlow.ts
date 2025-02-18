@@ -1,9 +1,6 @@
-
-import { JObject } from "@zwa73/utils";
 import { AccountManagerBase } from "../CredsAdapterBase";
 import { AccountData, AccountManager } from "../CredsInterface";
-import { AnyTextCompletionOption } from "LaMAdapter";
-
+import {JObject} from '@zwa73/utils';
 
 //key路由器
 export class SiliconFlowCredsManager extends AccountManagerBase implements AccountManager{
@@ -16,11 +13,11 @@ export class SiliconFlowCredsManager extends AccountManagerBase implements Accou
         port     : 443,
         useAgent : false,
     };
-    procOption(option:AnyTextCompletionOption){
+    procOption(option:JObject){
         const modelNameMap:Record<string,string>={
             "deepseek-chat":"deepseek-ai/DeepSeek-V3"
         };
-        if('model' in option){
+        if('model' in option && typeof option.model === 'string'){
             const mapname = modelNameMap[option.model];
             if(mapname!=null)
                 option.model = mapname as any;

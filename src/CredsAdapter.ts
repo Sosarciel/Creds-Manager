@@ -1,7 +1,6 @@
 import { AwaitInited, None, SLogger } from "@zwa73/utils";
-import path from 'pathe';
 import { APIPrice, APIPriceResp, AccountManager, CredsType } from "./CredsInterface";
-import { INSPack, ServiceConfig, ServiceCtorTable2FullCfgTable, ServiceData, ServiceManager, ServiceManagerMainCfg } from "@zwa73/service-manager";
+import { ServiceConfig, ServiceCtorTable2FullCfgTable, ServiceData, ServiceManager, ServiceManagerMainCfg } from "@zwa73/service-manager";
 import {
     DeepseekAccount, DeepseekCredsManager, DoubleGPTAccount, DoubleGPTCredsManager,
     Eylink4Account, Eylink4CredsManager, EylinkAccount, EylinkAzAccount,
@@ -9,7 +8,6 @@ import {
     GptusAccount, GptusCredsManager, OpenAIAccount, OpenAICredsManager,
     SiliconFlowAccount, SiliconFlowCredsManager
 } from "./Creds";
-import { table } from "console";
 import { GoogleAccount, GoogleCredsManager } from "./Creds/Google";
 
 
@@ -38,29 +36,28 @@ const CtorTable = {
 };
 type CtorTable = typeof CtorTable;
 
-type CredsAdapterJsonTable = ServiceManagerMainCfg&{
+export type CredsAdapterJsonTable = ServiceManagerMainCfg&{
     instance_table:{
         [key:string]:ServiceCtorTable2FullCfgTable<CtorTable,ServiceConfig>
     }
 }
 
 /**凭证数据 */
-export type CredsData = ServiceData<_CredsAdapter>;
+export type CredsData = ServiceData<CredsAdapter>;
 
 /**credentials_manager 凭证管理器 */
-class _CredsAdapter extends ServiceManager<
+export class CredsAdapter extends ServiceManager<
     AccountManager,
     CtorTable
 >{
     //#region 构造函数
-    constructor(){
-        const tablePath = path.join(process.cwd(),"data","CredsAdapter.json");
+    constructor(tablePath:string){
         super(tablePath,CtorTable);
         //自动保存
         this.autoSave(300);
     }
     /**自动保存定时器 */
-    private _autoSaveTimer:undefined|NodeJS.Timer;
+    private _autoSaveTimer:undefined|NodeJS.Timeout;
     //#endregion
     /**按照优先级获取第一个有效账户
      * @param accountType - 账户类型 按优先级排列
@@ -126,6 +123,3 @@ class _CredsAdapter extends ServiceManager<
     }
     //#endregion
 }
-
-export type CredsAdapter = _CredsAdapter
-export const CredsAdapter = new _CredsAdapter();

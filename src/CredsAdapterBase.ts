@@ -1,5 +1,4 @@
 import { SLogger } from "@zwa73/utils";
-import { CredsAdapter } from "./CredsAdapter";
 import { AccountData, AccountManager } from "./CredsInterface";
 
 
@@ -74,8 +73,6 @@ export class AccountManagerBase implements Omit<AccountManager,'postOption'|'typ
     }
     async setInavailable(){
         this._accountTable.is_available=false;
-        //立刻保存
-        await CredsAdapter.save();
     }
     saveToJson(){
         return this._accountTable;

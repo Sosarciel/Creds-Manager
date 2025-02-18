@@ -1,0 +1,536 @@
+{
+	"$schema": "http://json-schema.org/draft-07/schema#",
+	"definitions": {
+		"CredsAdapterJsonTable": {
+			"allOf": [
+				{
+					"description": "服务管理器配置",
+					"type": "object",
+					"properties": {
+						"max_resource": {
+							"description": "最大允许资源量 未设置则视为无限",
+							"type": "number"
+						}
+					}
+				},
+				{
+					"type": "object",
+					"properties": {
+						"instance_table": {
+							"type": "object",
+							"additionalProperties": {
+								"$ref": "#/definitions/ServiceCtorTable2FullCfgTable<{OpenAI:(table:AccountData)=>OpenAICredsManager;DoubleGPT:(table:AccountData)=>DoubleGPTCredsManager;Eylink:(table:AccountData)=>EylinkCredsManager;Eylink4:(table:AccountData)=>Eylink4CredsManager;EylinkAz:(table:AccountData)=>EylinkAzCredsManager;Gptus:(table:AccountData)=>GptusCredsManager;Gptge:(table:AccountData)=>GptgeCredsManager;Deepseek:(table:AccountData)=>DeepseekCredsManager;SiliconFlow:(table:AccountData)=>SiliconFlowCredsManager;Google:(table:AccountData)=>GoogleCredsManager;},ServiceConfig>"
+							}
+						}
+					},
+					"required": [
+						"instance_table"
+					]
+				}
+			]
+		},
+		"ServiceCtorTable2FullCfgTable<{OpenAI:(table:AccountData)=>OpenAICredsManager;DoubleGPT:(table:AccountData)=>DoubleGPTCredsManager;Eylink:(table:AccountData)=>EylinkCredsManager;Eylink4:(table:AccountData)=>Eylink4CredsManager;EylinkAz:(table:AccountData)=>EylinkAzCredsManager;Gptus:(table:AccountData)=>GptusCredsManager;Gptge:(table:AccountData)=>GptgeCredsManager;Deepseek:(table:AccountData)=>DeepseekCredsManager;SiliconFlow:(table:AccountData)=>SiliconFlowCredsManager;Google:(table:AccountData)=>GoogleCredsManager;},ServiceConfig>": {
+			"description": "将 类型:工厂函数 映射 转换为完整配置文件",
+			"anyOf": [
+				{
+					"allOf": [
+						{
+							"description": "服务基础配置文件",
+							"type": "object",
+							"properties": {
+								"name": {
+									"description": "服务实例名",
+									"type": "string"
+								},
+								"rollback": {
+									"description": "此服务若失败则尝试回退的实例名",
+									"type": "string"
+								},
+								"resource_usage": {
+									"description": "此服务的资源占用量\n省略将视为0\n小于等于0时不会尝试卸载",
+									"type": "number"
+								}
+							},
+							"required": [
+								"name"
+							]
+						},
+						{
+							"type": "object",
+							"properties": {
+								"type": {
+									"$ref": "#/definitions/P",
+									"description": "服务类型"
+								},
+								"data": {
+									"$ref": "#/definitions/Opt",
+									"description": "此实例的初始化数据"
+								}
+							},
+							"required": [
+								"data",
+								"type"
+							]
+						}
+					]
+				},
+				{
+					"allOf": [
+						{
+							"description": "服务基础配置文件",
+							"type": "object",
+							"properties": {
+								"name": {
+									"description": "服务实例名",
+									"type": "string"
+								},
+								"rollback": {
+									"description": "此服务若失败则尝试回退的实例名",
+									"type": "string"
+								},
+								"resource_usage": {
+									"description": "此服务的资源占用量\n省略将视为0\n小于等于0时不会尝试卸载",
+									"type": "number"
+								}
+							},
+							"required": [
+								"name"
+							]
+						},
+						{
+							"type": "object",
+							"properties": {
+								"type": {
+									"$ref": "#/definitions/P_1",
+									"description": "服务类型"
+								},
+								"data": {
+									"$ref": "#/definitions/Opt",
+									"description": "此实例的初始化数据"
+								}
+							},
+							"required": [
+								"data",
+								"type"
+							]
+						}
+					]
+				},
+				{
+					"allOf": [
+						{
+							"description": "服务基础配置文件",
+							"type": "object",
+							"properties": {
+								"name": {
+									"description": "服务实例名",
+									"type": "string"
+								},
+								"rollback": {
+									"description": "此服务若失败则尝试回退的实例名",
+									"type": "string"
+								},
+								"resource_usage": {
+									"description": "此服务的资源占用量\n省略将视为0\n小于等于0时不会尝试卸载",
+									"type": "number"
+								}
+							},
+							"required": [
+								"name"
+							]
+						},
+						{
+							"type": "object",
+							"properties": {
+								"type": {
+									"$ref": "#/definitions/P_2",
+									"description": "服务类型"
+								},
+								"data": {
+									"$ref": "#/definitions/Opt",
+									"description": "此实例的初始化数据"
+								}
+							},
+							"required": [
+								"data",
+								"type"
+							]
+						}
+					]
+				},
+				{
+					"allOf": [
+						{
+							"description": "服务基础配置文件",
+							"type": "object",
+							"properties": {
+								"name": {
+									"description": "服务实例名",
+									"type": "string"
+								},
+								"rollback": {
+									"description": "此服务若失败则尝试回退的实例名",
+									"type": "string"
+								},
+								"resource_usage": {
+									"description": "此服务的资源占用量\n省略将视为0\n小于等于0时不会尝试卸载",
+									"type": "number"
+								}
+							},
+							"required": [
+								"name"
+							]
+						},
+						{
+							"type": "object",
+							"properties": {
+								"type": {
+									"$ref": "#/definitions/P_3",
+									"description": "服务类型"
+								},
+								"data": {
+									"$ref": "#/definitions/Opt",
+									"description": "此实例的初始化数据"
+								}
+							},
+							"required": [
+								"data",
+								"type"
+							]
+						}
+					]
+				},
+				{
+					"allOf": [
+						{
+							"description": "服务基础配置文件",
+							"type": "object",
+							"properties": {
+								"name": {
+									"description": "服务实例名",
+									"type": "string"
+								},
+								"rollback": {
+									"description": "此服务若失败则尝试回退的实例名",
+									"type": "string"
+								},
+								"resource_usage": {
+									"description": "此服务的资源占用量\n省略将视为0\n小于等于0时不会尝试卸载",
+									"type": "number"
+								}
+							},
+							"required": [
+								"name"
+							]
+						},
+						{
+							"type": "object",
+							"properties": {
+								"type": {
+									"$ref": "#/definitions/P_4",
+									"description": "服务类型"
+								},
+								"data": {
+									"$ref": "#/definitions/Opt",
+									"description": "此实例的初始化数据"
+								}
+							},
+							"required": [
+								"data",
+								"type"
+							]
+						}
+					]
+				},
+				{
+					"allOf": [
+						{
+							"description": "服务基础配置文件",
+							"type": "object",
+							"properties": {
+								"name": {
+									"description": "服务实例名",
+									"type": "string"
+								},
+								"rollback": {
+									"description": "此服务若失败则尝试回退的实例名",
+									"type": "string"
+								},
+								"resource_usage": {
+									"description": "此服务的资源占用量\n省略将视为0\n小于等于0时不会尝试卸载",
+									"type": "number"
+								}
+							},
+							"required": [
+								"name"
+							]
+						},
+						{
+							"type": "object",
+							"properties": {
+								"type": {
+									"$ref": "#/definitions/P_5",
+									"description": "服务类型"
+								},
+								"data": {
+									"$ref": "#/definitions/Opt",
+									"description": "此实例的初始化数据"
+								}
+							},
+							"required": [
+								"data",
+								"type"
+							]
+						}
+					]
+				},
+				{
+					"allOf": [
+						{
+							"description": "服务基础配置文件",
+							"type": "object",
+							"properties": {
+								"name": {
+									"description": "服务实例名",
+									"type": "string"
+								},
+								"rollback": {
+									"description": "此服务若失败则尝试回退的实例名",
+									"type": "string"
+								},
+								"resource_usage": {
+									"description": "此服务的资源占用量\n省略将视为0\n小于等于0时不会尝试卸载",
+									"type": "number"
+								}
+							},
+							"required": [
+								"name"
+							]
+						},
+						{
+							"type": "object",
+							"properties": {
+								"type": {
+									"$ref": "#/definitions/P_6",
+									"description": "服务类型"
+								},
+								"data": {
+									"$ref": "#/definitions/Opt",
+									"description": "此实例的初始化数据"
+								}
+							},
+							"required": [
+								"data",
+								"type"
+							]
+						}
+					]
+				},
+				{
+					"allOf": [
+						{
+							"description": "服务基础配置文件",
+							"type": "object",
+							"properties": {
+								"name": {
+									"description": "服务实例名",
+									"type": "string"
+								},
+								"rollback": {
+									"description": "此服务若失败则尝试回退的实例名",
+									"type": "string"
+								},
+								"resource_usage": {
+									"description": "此服务的资源占用量\n省略将视为0\n小于等于0时不会尝试卸载",
+									"type": "number"
+								}
+							},
+							"required": [
+								"name"
+							]
+						},
+						{
+							"type": "object",
+							"properties": {
+								"type": {
+									"$ref": "#/definitions/P_7",
+									"description": "服务类型"
+								},
+								"data": {
+									"$ref": "#/definitions/Opt",
+									"description": "此实例的初始化数据"
+								}
+							},
+							"required": [
+								"data",
+								"type"
+							]
+						}
+					]
+				},
+				{
+					"allOf": [
+						{
+							"description": "服务基础配置文件",
+							"type": "object",
+							"properties": {
+								"name": {
+									"description": "服务实例名",
+									"type": "string"
+								},
+								"rollback": {
+									"description": "此服务若失败则尝试回退的实例名",
+									"type": "string"
+								},
+								"resource_usage": {
+									"description": "此服务的资源占用量\n省略将视为0\n小于等于0时不会尝试卸载",
+									"type": "number"
+								}
+							},
+							"required": [
+								"name"
+							]
+						},
+						{
+							"type": "object",
+							"properties": {
+								"type": {
+									"$ref": "#/definitions/P_8",
+									"description": "服务类型"
+								},
+								"data": {
+									"$ref": "#/definitions/Opt",
+									"description": "此实例的初始化数据"
+								}
+							},
+							"required": [
+								"data",
+								"type"
+							]
+						}
+					]
+				},
+				{
+					"allOf": [
+						{
+							"description": "服务基础配置文件",
+							"type": "object",
+							"properties": {
+								"name": {
+									"description": "服务实例名",
+									"type": "string"
+								},
+								"rollback": {
+									"description": "此服务若失败则尝试回退的实例名",
+									"type": "string"
+								},
+								"resource_usage": {
+									"description": "此服务的资源占用量\n省略将视为0\n小于等于0时不会尝试卸载",
+									"type": "number"
+								}
+							},
+							"required": [
+								"name"
+							]
+						},
+						{
+							"type": "object",
+							"properties": {
+								"type": {
+									"$ref": "#/definitions/P_9",
+									"description": "服务类型"
+								},
+								"data": {
+									"$ref": "#/definitions/Opt",
+									"description": "此实例的初始化数据"
+								}
+							},
+							"required": [
+								"data",
+								"type"
+							]
+						}
+					]
+				}
+			]
+		},
+		"P": {
+			"type": "string",
+			"const": "OpenAI"
+		},
+		"__type": {
+			"description": "账号数据",
+			"type": "object",
+			"properties": {
+				"api_key": {
+					"description": "APIKey",
+					"anyOf": [
+						{
+							"type": "array",
+							"items": {
+								"type": "string"
+							}
+						},
+						{
+							"type": "string"
+						}
+					]
+				},
+				"is_available": {
+					"description": "有效的",
+					"type": "boolean"
+				},
+				"used_credit": {
+					"description": "使用的额度 单位 千分之一USD",
+					"type": "number"
+				},
+				"credit_limit": {
+					"description": "额度限制 单位 千分之一USD",
+					"type": "number"
+				}
+			},
+			"required": [
+				"api_key"
+			]
+		},
+		"Opt": {
+			"$ref": "#/definitions/__type"
+		},
+		"P_1": {
+			"type": "string",
+			"const": "DoubleGPT"
+		},
+		"P_2": {
+			"type": "string",
+			"const": "Eylink"
+		},
+		"P_3": {
+			"type": "string",
+			"const": "Eylink4"
+		},
+		"P_4": {
+			"type": "string",
+			"const": "EylinkAz"
+		},
+		"P_5": {
+			"type": "string",
+			"const": "Gptus"
+		},
+		"P_6": {
+			"type": "string",
+			"const": "Gptge"
+		},
+		"P_7": {
+			"type": "string",
+			"const": "Deepseek"
+		},
+		"P_8": {
+			"type": "string",
+			"const": "SiliconFlow"
+		},
+		"P_9": {
+			"type": "string",
+			"const": "Google"
+		}
+	}
+}

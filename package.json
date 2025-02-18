@@ -1,11 +1,26 @@
 {
-  "name": "creds-adapter",
-  "version": "1.0.0",
-  "description": "凭证管理器",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "",
-  "license": "ISC"
+	"name": "@sosraciel-lamda/creds-adapter",
+	"version": "1.0.6",
+	"description": "凭证管理器",
+	"main": "index.js",
+	"scripts": {
+		"build": "powershell scripts/build",
+		"compile": "powershell scripts/compile",
+		"watch": "powershell scripts/watch",
+		"build-schema": "powershell scripts/build-schema",
+		"init": "deepkit-type-install",
+		"expand-macro": "powershell scripts/expand-macro"
+	},
+	"author": "",
+	"license": "ISC",
+	"dependencies": {
+		"@zwa73/service-manager": "^1.0.13",
+		"@zwa73/utils": "^1.0.199",
+		"tsconfig-paths": "^4.2.0"
+	},
+	"files": [
+		"dist",
+		"index.js",
+		"index.d.ts"
+	]
 }
