@@ -1,4 +1,4 @@
-import { AwaitInited, None, SLogger } from "@zwa73/utils";
+import { AwaitInited, None, SLogger, throwError } from "@zwa73/utils";
 import { APIPrice, APIPriceResp, AccountManager, CredsType } from "./CredsInterface";
 import { ServiceConfig, ServiceCtorTable2FullCfgTable, ServiceData, ServiceManager, ServiceManagerMainCfg } from "@zwa73/service-manager";
 import {
@@ -45,8 +45,8 @@ export type CredsAdapterJsonTable = ServiceManagerMainCfg&{
 /**凭证数据 */
 export type CredsData = ServiceData<CredsAdapter>;
 
-/**credentials_manager 凭证管理器 */
-export class CredsAdapter extends ServiceManager<
+/**credentials_manager 凭证管理器 需先调用init */
+class _CredsAdapter extends ServiceManager<
     AccountManager,
     CtorTable
 >{
@@ -123,3 +123,18 @@ export class CredsAdapter extends ServiceManager<
     }
     //#endregion
 }
+
+/**credentials_manager 凭证管理器 */
+export type CredsAdapter = _CredsAdapter&{init:(tablePath: string)=>void};
+export const CredsAdapter = new Proxy({} as {ins?:_CredsAdapter}, {
+    get(target, prop, receiver) {
+        if (prop === 'init') {
+            return (tablePath: string) => {
+                if (target.ins==null)
+                    target.ins = new _CredsAdapter(tablePath);
+            };
+        }
+        if (target.ins==null) throwError("CredsAdapter 未初始化", 'error');
+        return Reflect.get(target.ins, prop, receiver);
+    }
+}) as any as CredsAdapter;
