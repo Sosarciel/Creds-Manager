@@ -1,7 +1,7 @@
 {
 	"$schema": "http://json-schema.org/draft-07/schema#",
 	"definitions": {
-		"CredsAdapterJsonTable": {
+		"CredsManagerJsonTable": {
 			"allOf": [
 				{
 					"description": "服务管理器配置",

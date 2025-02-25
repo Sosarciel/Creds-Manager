@@ -1,2 +1,2 @@
-export * from './CredsAdapter';
+export * from './CredsManager';
 export * from './CredsInterface';

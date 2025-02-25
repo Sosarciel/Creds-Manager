@@ -36,17 +36,17 @@ const CtorTable = {
 };
 type CtorTable = typeof CtorTable;
 
-export type CredsAdapterJsonTable = ServiceManagerMainCfg&{
+export type CredsManagerJsonTable = ServiceManagerMainCfg&{
     instance_table:{
         [key:string]:ServiceCtorTable2FullCfgTable<CtorTable,ServiceConfig>
     }
 }
 
 /**凭证数据 */
-export type CredsData = ServiceData<CredsAdapter>;
+export type CredsData = ServiceData<CredsManager>;
 
 /**credentials_manager 凭证管理器 需先调用init */
-class _CredsAdapter extends ServiceManager<
+class _CredsManager extends ServiceManager<
     AccountManager,
     CtorTable
 >{
@@ -86,7 +86,7 @@ class _CredsAdapter extends ServiceManager<
             (completionCount*price.completionPrice)+
             (cachedPromptCount*(price.cacheHitPromptPrice??0));
         if(isNaN(totalPrice)){
-            SLogger.error(`CredsAdapter.calcPrice 错误 无法计算价格`);
+            SLogger.error(`CredsManager.calcPrice 错误 无法计算价格`);
             SLogger.error(usage);
             return;
         }
@@ -125,16 +125,16 @@ class _CredsAdapter extends ServiceManager<
 }
 
 /**credentials_manager 凭证管理器 */
-export type CredsAdapter = _CredsAdapter&{init:(tablePath: string)=>void};
-export const CredsAdapter = new Proxy({} as {ins?:_CredsAdapter}, {
+export type CredsManager = _CredsManager&{init:(tablePath: string)=>void};
+export const CredsManager = new Proxy({} as {ins?:_CredsManager}, {
     get(target, prop, receiver) {
         if (prop === 'init') {
             return (tablePath: string) => {
                 if (target.ins==null)
-                    target.ins = new _CredsAdapter(tablePath);
+                    target.ins = new _CredsManager(tablePath);
             };
         }
-        if (target.ins==null) throwError("CredsAdapter 未初始化", 'error');
+        if (target.ins==null) throwError("CredsManager 未初始化", 'error');
         return Reflect.get(target.ins, prop, receiver);
     }
-}) as any as CredsAdapter;
+}) as any as CredsManager;

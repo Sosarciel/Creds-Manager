@@ -1,6 +1,6 @@
 
 import { AccountData, AccountManager } from "../CredsInterface";
-import { AccountManagerBase } from "../CredsAdapterBase";
+import { AccountManagerBase } from "../CredsManagerBase";
 
 
 //key路由器

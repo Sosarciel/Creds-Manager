@@ -1,6 +1,6 @@
 import { ServiceInterface } from "@zwa73/service-manager";
 import { JObject, MPromise } from "@zwa73/utils";
-import { CredsData } from "./CredsAdapter";
+import { CredsData } from "./CredsManager";
 
 /**账户管理器接口 */
 export type AccountManager = ServiceInterface<{

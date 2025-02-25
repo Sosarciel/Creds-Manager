@@ -1,4 +1,4 @@
-import { AccountManagerBase } from "../CredsAdapterBase";
+import { AccountManagerBase } from "../CredsManagerBase";
 import { AccountData, AccountManager } from "../CredsInterface";
 import {JObject} from '@zwa73/utils';
 
