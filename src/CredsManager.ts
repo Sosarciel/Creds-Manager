@@ -1,6 +1,6 @@
-import { AwaitInited, None, SLogger, throwError } from "@zwa73/utils";
+import { AwaitInited, NeedInit, None, SLogger, throwError } from "@zwa73/utils";
 import { APIPrice, APIPriceResp, AccountManager, CredsType } from "./CredsInterface";
-import { ServiceConfig, ServiceCtorTable2FullCfgTable, ServiceData, ServiceManager, ServiceManagerMainCfg } from "@zwa73/service-manager";
+import { ServiceConfig, ServiceData, ServiceManager, ServiceManagerSchema } from "@zwa73/service-manager";
 import {
     DeepseekAccount, DeepseekCredsManager, DoubleGPTAccount, DoubleGPTCredsManager,
     Eylink4Account, Eylink4CredsManager, EylinkAccount, EylinkAzAccount,
@@ -36,23 +36,22 @@ const CtorTable = {
 };
 type CtorTable = typeof CtorTable;
 
-export type CredsManagerJsonTable = ServiceManagerMainCfg&{
-    instance_table:{
-        [key:string]:ServiceCtorTable2FullCfgTable<CtorTable,ServiceConfig>
-    }
-}
+export type CredsManagerJsonTable = ServiceManagerSchema<ServiceConfig<CtorTable>>;
 
 /**凭证数据 */
-export type CredsData = ServiceData<CredsManager>;
+export type CredsData = ServiceData<ServiceManager<CtorTable,AccountManager>>;
 
 /**credentials_manager 凭证管理器 需先调用init */
-class _CredsManager extends ServiceManager<
-    AccountManager,
-    CtorTable
->{
+class _CredsManager implements NeedInit{
+    readonly sm;
+    inited;
     //#region 构造函数
     constructor(tablePath:string){
-        super(tablePath,CtorTable);
+        this.sm = ServiceManager.from<CtorTable,AccountManager>({
+            cfgPath:tablePath,
+            ctorTable:CtorTable
+        });
+        this.inited = this.sm.inited;
         //自动保存
         this.autoSave(300);
     }
@@ -65,7 +64,7 @@ class _CredsManager extends ServiceManager<
     @AwaitInited
     async getAvailableAccount(...accountType:CredsType[]){
         const ac = (await Promise.all(accountType
-            .map(async t=>await this.getVaildService(
+            .map(async t=>await this.sm.getVaildService(
                 sd=>sd.type===t && sd.instance.getData().is_available===true
             )))).flat();
         return ac.length>=1 ? ac[0] : None;
@@ -118,7 +117,7 @@ class _CredsManager extends ServiceManager<
     }
     /**保存凭证数据 */
     async save(){
-        await super.save();
+        await this.sm.save();
         SLogger.info("CredsManager.save 完成保存");
     }
     //#endregion
