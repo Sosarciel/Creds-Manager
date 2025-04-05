@@ -1,6 +1,6 @@
 import { AwaitInited, NeedInit, None, SLogger, throwError } from "@zwa73/utils";
 import { APIPrice, APIPriceResp, AccountManager, CredsType } from "./CredsInterface";
-import { ServiceConfig, ServiceData, ServiceManager, ServiceManagerSchema } from "@zwa73/service-manager";
+import { ServiceConfig, ServiceInstance, ServiceManager, ServiceManagerBaseConfig, ServiceManagerSchema } from "@zwa73/service-manager";
 import {
     DeepseekAccount, DeepseekCredsManager, DoubleGPTAccount, DoubleGPTCredsManager,
     Eylink4Account, Eylink4CredsManager, EylinkAccount, EylinkAzAccount,
@@ -36,10 +36,14 @@ const CtorTable = {
 };
 type CtorTable = typeof CtorTable;
 
-export type CredsManagerJsonTable = ServiceManagerSchema<ServiceConfig<CtorTable>>;
+export type CredsManagerJsonTable =  ServiceManagerBaseConfig & {
+    instance_table: {
+        [key: string]: ServiceConfig<CtorTable>;
+    };
+}
 
 /**凭证数据 */
-export type CredsData = ServiceData<ServiceManager<CtorTable,AccountManager>>;
+export type CredsData = ServiceInstance<CtorTable,AccountManager>;
 
 /**credentials_manager 凭证管理器 需先调用init */
 class _CredsManager implements NeedInit{
@@ -64,7 +68,7 @@ class _CredsManager implements NeedInit{
     @AwaitInited
     async getAvailableAccount(...accountType:CredsType[]){
         const ac = (await Promise.all(accountType
-            .map(async t=>await this.sm.getVaildService(
+            .map(async t=>await this.sm.getServiceList(
                 sd=>sd.type===t && sd.instance.getData().is_available===true
             )))).flat();
         return ac.length>=1 ? ac[0] : None;
