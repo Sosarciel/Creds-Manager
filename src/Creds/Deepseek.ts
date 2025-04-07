@@ -10,7 +10,7 @@ export class DeepseekCredsManager extends AccountManagerBase implements AccountM
         super(accountTable);
     }
     postOption={
-        hostname : 'api.deepseek.com/beta',
+        hostname : 'api.deepseek.com',
         port     : 443,
         useAgent : false,
     };
