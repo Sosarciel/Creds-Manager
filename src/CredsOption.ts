@@ -103,7 +103,7 @@ export const GptgeOption = {
                 let isContinus = true;
                 const seps:MessageArr = [];
                 message.forEach(obj => {
-                    if(isContinus && obj.role=="system")
+                    if(isContinus && obj.role=="system" && obj.content.length>10)
                         return topstr+=obj.content+"\n";
                     isContinus = false;
                     seps.push({
