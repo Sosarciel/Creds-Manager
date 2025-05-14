@@ -72,6 +72,7 @@ export const GoogleOption = {
 }
 assertType<AccountPostOption>(GoogleOption);
 
+
 /**Gptge账号参数  
  * https://api.gpt.ge  
  */
@@ -80,9 +81,40 @@ export const GptgeOption = {
     port     : 443,
     useAgent : false,
     procOption(option:JObject){
-        //gemini设置maxtokens会出现错误
-        if('model' in option && typeof option.model === 'string' && option.model.includes('gemini')){
-            delete option.max_tokens;
+        /**应对以下转换方式 需合并system
+         *  for _, message := range textRequest.Messages {
+         *      if messageLink.Role == "system" {
+         *          geminiRequest.Systeminstruction = &ChatContent{
+         *              Parts: []Part{ { Text: messageLink.StringContent() } }
+         *          }
+         *          continue
+         *      }
+         *  }
+         */
+        type MessageArr = {
+            content:string;
+            role:"system"|"assistant"|"user";
+        }[];
+        if( 'model' in option && typeof option.model === 'string' &&
+            'messages' in option && Array.isArray(option.messages) &&
+            option.model.includes('gemini')){
+                const message = option.messages as MessageArr;
+                let topstr:string = "";
+                let isContinus = true;
+                const seps:MessageArr = [];
+                message.forEach(obj => {
+                    if(isContinus && obj.role=="system")
+                        return topstr+=obj.content+"\n";
+                    isContinus = false;
+                    seps.push({
+                        role:obj.role == "system" ? "user" : obj.role,
+                        content:obj.content,
+                    });
+                });
+                option.messages = [
+                    {role:"system",content:topstr.trim()},
+                    ...seps,
+                ]
         }
         return option;
     },
