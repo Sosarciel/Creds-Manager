@@ -1,4 +1,4 @@
-import { assertType } from "@zwa73/utils";
+import { assertType, JObject } from "@zwa73/utils";
 import { AccountPostOption } from "./CredsInterface";
 
 
@@ -79,6 +79,13 @@ export const GptgeOption = {
     hostname : 'api.gpt.ge',
     port     : 443,
     useAgent : false,
+    procOption(option:JObject){
+        //gemini设置maxtokens会出现错误
+        if('model' in option && typeof option.model === 'string' && option.model.includes('gemini')){
+            delete option.max_tokens;
+        }
+        return option;
+    },
 }
 assertType<AccountPostOption>(GptgeOption);
 
@@ -110,8 +117,16 @@ export const SiliconFlowOption = {
     hostname : 'api.siliconflow.cn',
     port     : 443,
     useAgent : false,
-    modelNameMap :{
-        "deepseek-chat":"deepseek-ai/DeepSeek-V3"
-    }
+    procOption(option:JObject){
+        const modelNameMap:Record<string,string>={
+            "deepseek-chat":"deepseek-ai/DeepSeek-V3"
+        };
+        if('model' in option && typeof option.model === 'string'){
+            const mapname = modelNameMap[option.model];
+            if(mapname!=null)
+                option.model = mapname as any;
+        }
+        return option;
+    },
 }
 assertType<AccountPostOption>(SiliconFlowOption);

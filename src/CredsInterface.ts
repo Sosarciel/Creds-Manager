@@ -31,8 +31,8 @@ export type AccountPostOption = {
     useAgent:boolean;
     /**所用协议 默认https */
     protocol?:'http' | 'https';
-    /**模型名称映射 */
-    modelNameMap?:PRecord<string,string>;
+    /**账号对postjson的特殊处理 */
+    procOption?:(obj:JObject)=>any;
 }
 
 /**价格 */
