@@ -1,5 +1,5 @@
 import { ServiceInterface } from "@zwa73/service-manager";
-import { JObject, MPromise } from "@zwa73/utils";
+import { JObject, MPromise, PRecord } from "@zwa73/utils";
 import { CredsData } from "./CredsManager";
 
 /**账户管理器接口 */
@@ -17,8 +17,6 @@ export type AccountManager = ServiceInterface<{
     setInavailable():Promise<void>
     /**此类型账户请求时的参数 */
     postOption:AccountPostOption;
-    /**此账户对post选项的特殊处理 */
-    procOption?:(opt:JObject)=>MPromise<JObject>;
     /**获取key */
     getKey():string;
 }>;
@@ -33,6 +31,8 @@ export type AccountPostOption = {
     useAgent:boolean;
     /**所用协议 默认https */
     protocol?:'http' | 'https';
+    /**模型名称映射 */
+    modelNameMap?:PRecord<string,string>;
 }
 
 /**价格 */

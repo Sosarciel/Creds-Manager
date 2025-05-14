@@ -1,38 +1,23 @@
 import { AwaitInited, NeedInit, None, SLogger, throwError } from "@zwa73/utils";
-import { APIPrice, APIPriceResp, AccountManager, CredsType } from "./CredsInterface";
-import { ServiceConfig, ServiceInstance, ServiceManager, ServiceManagerBaseConfig, ServiceManagerSchema } from "@zwa73/service-manager";
-import {
-    DeepseekAccount, DeepseekCredsManager, DoubleGPTAccount, DoubleGPTCredsManager,
-    Eylink4Account, Eylink4CredsManager, EylinkAccount, EylinkAzAccount,
-    EylinkAzCredsManager, EylinkCredsManager, GptgeAccount, GptgeCredsManager,
-    GptusAccount, GptusCredsManager, OpenAIAccount, OpenAICredsManager,
-    SiliconFlowAccount, SiliconFlowCredsManager
-} from "./Creds";
-import { GoogleAccount, GoogleCredsManager } from "./Creds/Google";
+import { APIPrice, APIPriceResp, AccountData, AccountManager, CredsType } from "./CredsInterface";
+import { ServiceConfig, ServiceInstance, ServiceManager, ServiceManagerBaseConfig } from "@zwa73/service-manager";
+import { AccountManagerDrive } from "./CredsDrive";
+import { DeepseekOption, DoubleGPTOption, Eylink4Option, EylinkAzOption, EylinkOption, GoogleOption, GptgeOption, GptusOption, OpenAIOption, SiliconFlowOption } from "./CredsOption";
+
 
 
 
 const CtorTable = {
-    /**https://openai.com */
-    OpenAI      : (table:OpenAIAccount)      =>new OpenAICredsManager       (table),
-    /**https://doublegpt.io */
-    DoubleGPT   : (table:DoubleGPTAccount)   =>new DoubleGPTCredsManager    (table),
-    /**https://eylink.cn */
-    Eylink      : (table:EylinkAccount)      =>new EylinkCredsManager       (table),
-    /**https://eylink.cn */
-    Eylink4     : (table:Eylink4Account)     =>new Eylink4CredsManager      (table),
-    /**https://eylink.cn */
-    EylinkAz    : (table:EylinkAzAccount)    =>new EylinkAzCredsManager     (table),
-    /**https://www.gptapi.us */
-    Gptus       : (table:GptusAccount)       =>new GptusCredsManager        (table),
-    /**https://api.gpt.ge */
-    Gptge       : (table:GptgeAccount)       =>new GptgeCredsManager        (table),
-    /**https://platform.deepseek.com */
-    Deepseek    : (table:DeepseekAccount)    =>new DeepseekCredsManager     (table),
-    /**https://cloud.siliconflow.cn */
-    SiliconFlow : (table:SiliconFlowAccount) =>new SiliconFlowCredsManager  (table),
-    /**https://ai.google.dev/gemini-api/docs/ */
-    Google      : (table:GoogleAccount)      =>new GoogleCredsManager       (table),
+    OpenAI      : (table:AccountData)   => new AccountManagerDrive(OpenAIOption,table),
+    DoubleGPT   : (table:AccountData)   => new AccountManagerDrive(DoubleGPTOption,table),
+    Eylink      : (table:AccountData)   => new AccountManagerDrive(EylinkOption,table),
+    Eylink4     : (table:AccountData)   => new AccountManagerDrive(Eylink4Option,table),
+    EylinkAz    : (table:AccountData)   => new AccountManagerDrive(EylinkAzOption,table),
+    Gptus       : (table:AccountData)   => new AccountManagerDrive(GptusOption,table),
+    Gptge       : (table:AccountData)   => new AccountManagerDrive(GptgeOption,table),
+    Deepseek    : (table:AccountData)   => new AccountManagerDrive(DeepseekOption,table),
+    SiliconFlow : (table:AccountData)   => new AccountManagerDrive(SiliconFlowOption,table),
+    Google      : (table:AccountData)   => new AccountManagerDrive(GoogleOption,table),
 };
 type CtorTable = typeof CtorTable;
 

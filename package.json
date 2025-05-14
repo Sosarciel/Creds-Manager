@@ -1,6 +1,6 @@
 {
 	"name": "@sosraciel-lamda/creds-manager",
-	"version": "1.0.14",
+	"version": "1.0.15",
 	"description": "凭证管理器",
 	"main": "index.js",
 	"scripts": {
