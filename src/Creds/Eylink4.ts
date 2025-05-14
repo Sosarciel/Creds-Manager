@@ -10,10 +10,13 @@ export class Eylink4CredsManager extends AccountManagerBase implements AccountMa
         super(accountTable);
     }
     postOption={
-        hostname : '15.204.101.64',
-        port     : 4000,
+        //hostname : '15.204.101.64',
+        hostname : 'api.yesapikey.com',
+        //port     : 4000,
+        port     : 443,
         useAgent : false,
-        protocol : 'http' as const
+        //protocol : 'http' as const
+        protocol : 'https' as const
     };
     //postOption={
     //    hostname : 'gtfast.xiaoerchaoren.com',
