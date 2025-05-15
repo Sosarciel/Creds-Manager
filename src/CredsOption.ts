@@ -5,7 +5,7 @@ import { AccountPostOption } from "./CredsInterface";
 /**Deepseek官方账号参数
  * https://platform.deepseek.com
  */
-export const DeepseekOption = {
+export const DeepseekOption:AccountPostOption = {
     hostname : 'api.deepseek.com',
     port     : 443,
     useAgent : false,
@@ -15,7 +15,7 @@ assertType<AccountPostOption>(DeepseekOption);
 /**DoubleGPT账号参数  
  * https://doublegpt.io  
  */
-export const DoubleGPTOption = {
+export const DoubleGPTOption:AccountPostOption = {
     hostname : 'www.doublegpt.io',
     port     : 443,
     useAgent : true,
@@ -25,7 +25,7 @@ assertType<AccountPostOption>(DoubleGPTOption);
 /**旧版Eylink账号参数  
  * https://eylink.cn  
  */
-export const EylinkOption = {
+export const EylinkOption:AccountPostOption = {
     hostname : 'gtapi.xiaoerchaoren.com',
     port     : 8932,
     useAgent : false,
@@ -40,7 +40,7 @@ assertType<AccountPostOption>(EylinkOption);
  * http://gtfast.xiaoerchaoren.com:8930
  * 15.204.101.64:4000
  */
-export const Eylink4Option = {
+export const Eylink4Option:AccountPostOption = {
     //hostname : '15.204.101.64',
     hostname : 'api.yesapikey.com',
     //port     : 4000,
@@ -54,7 +54,7 @@ assertType<AccountPostOption>(Eylink4Option);
 /**Eylink az转发 账号参数  
  * https://eylink.cn  
  */
-export const EylinkAzOption = {
+export const EylinkAzOption:AccountPostOption = {
     hostname : 'az.yesapikey.com',
     port     : 443,
     useAgent : false,
@@ -65,7 +65,7 @@ assertType<AccountPostOption>(EylinkAzOption);
 /**谷歌官方账号参数  
  * https://ai.google.dev/gemini-api/docs/  
  */
-export const GoogleOption = {
+export const GoogleOption:AccountPostOption = {
     hostname : 'generativelanguage.googleapis.com',
     port     : 443,
     useAgent : true,
@@ -76,7 +76,7 @@ assertType<AccountPostOption>(GoogleOption);
 /**Gptge账号参数  
  * https://api.gpt.ge  
  */
-export const GptgeOption = {
+export const GptgeOption:AccountPostOption = {
     hostname : 'api.gpt.ge',
     port     : 443,
     useAgent : false,
@@ -118,6 +118,10 @@ export const GptgeOption = {
         }
         return option;
     },
+    retryOption:{
+        count:3,
+        tryInterval:60_000
+    }
 }
 assertType<AccountPostOption>(GptgeOption);
 
@@ -125,7 +129,7 @@ assertType<AccountPostOption>(GptgeOption);
  * https://www.gptapi.us  
  * 很差  
  */
-export const GptusOption = {
+export const GptusOption:AccountPostOption = {
     hostname : 'www.gptapi.us',
     port     : 443,
     useAgent : false,
@@ -135,7 +139,7 @@ assertType<AccountPostOption>(GptusOption);
 /**OpenAI账号参数  
  * https://openai.com  
  */
-export const OpenAIOption = {
+export const OpenAIOption:AccountPostOption = {
     hostname : 'api.openai.com',
     port     :  443,
     useAgent : true,
@@ -145,7 +149,7 @@ assertType<AccountPostOption>(OpenAIOption);
 /**硅基流动账号参数  
  * https://cloud.siliconflow.cn  
  */
-export const SiliconFlowOption = {
+export const SiliconFlowOption:AccountPostOption = {
     hostname : 'api.siliconflow.cn',
     port     : 443,
     useAgent : false,

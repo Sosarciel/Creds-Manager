@@ -1,5 +1,5 @@
 import { ServiceInterface } from "@zwa73/service-manager";
-import { JObject, MPromise, PRecord } from "@zwa73/utils";
+import { JObject, MPromise, PRecord, PromiseRetries } from "@zwa73/utils";
 import { CredsData } from "./CredsManager";
 
 /**账户管理器接口 */
@@ -31,6 +31,8 @@ export type AccountPostOption = {
     useAgent:boolean;
     /**所用协议 默认https */
     protocol?:'http' | 'https';
+    /**重试设定 */
+    retryOption?:PromiseRetries;
     /**账号对postjson的特殊处理 */
     procOption?:(obj:JObject)=>any;
 }
